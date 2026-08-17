@@ -43,7 +43,7 @@ body::before{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
 .nav .menu a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:currentColor;transition:width .3s;}
 .nav .menu a:hover::after{width:100%;}
 @media(max-width:680px){.nav .menu{gap:14px;font-size:9px;}}
-.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--cream);z-index:300;transition:width .1s linear;}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--paper);z-index:300;transition:width .1s linear;}
 
 /* ===== HERO — developer-first, no photo required ===== */
 .hero{min-height:100svh;background:var(--maroon);color:var(--cream);display:flex;align-items:center;position:relative;overflow:hidden;padding:clamp(86px,10vw,118px) clamp(18px,5vw,48px) 42px;}
@@ -55,7 +55,7 @@ body::before{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
 @keyframes statusPulse{0%{box-shadow:0 0 0 0 rgba(198,161,99,.45)}65%{box-shadow:0 0 0 8px rgba(198,161,99,0)}100%{box-shadow:0 0 0 0 rgba(198,161,99,0)}}
 .hero-main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:clamp(30px,7vw,96px);align-items:center;}
 .hero-copy{min-width:0;}
-.hero-name{font-family:var(--font-display);font-size:clamp(74px,13vw,176px);line-height:.78;text-transform:uppercase;letter-spacing:.002em;max-width:780px;}
+.hero-name{font-family:var(--font-display);font-size:clamp(72px,8.5vw,132px);line-height:.78;text-transform:uppercase;letter-spacing:.002em;max-width:100%;white-space:nowrap;}
 .hero-name .line{display:block;overflow:hidden;padding-bottom:.08em;}
 .hero-name .line span{display:block;transform:translateY(112%);animation:heroUp .85s cubic-bezier(.2,.8,.2,1) forwards;}
 .hero-name .line:nth-child(2) span{animation-delay:.12s;color:transparent;-webkit-text-stroke:1.5px rgba(239,230,214,.72);text-stroke:1.5px rgba(239,230,214,.72);}
@@ -81,9 +81,14 @@ body::before{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
 .hero-stack-track{display:flex;width:max-content;align-items:center;gap:12px;padding:13px 0;animation:stackSlide 28s linear infinite;}
 .hero-stack:hover .hero-stack-track{animation-play-state:paused;}
 .stack-item{display:flex;align-items:center;gap:9px;padding:7px 12px;border-right:1px solid rgba(239,230,214,.14);font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,230,214,.62);white-space:nowrap;}
-.stack-item img{width:22px;height:22px;object-fit:contain;filter:grayscale(1) brightness(0) invert(1);opacity:.94;transition:opacity .25s,transform .25s;}
-.stack-item:hover img{opacity:1;transform:translateY(-1px);}
+.stack-icon{width:22px;height:22px;display:block;flex:0 0 22px;color:var(--cream);opacity:.94;transition:opacity .25s,transform .25s;}
+.stack-icon *{vector-effect:non-scaling-stroke;}
+.stack-item:hover .stack-icon{opacity:1;transform:translateY(-1px);}
 @keyframes stackSlide{to{transform:translateX(-50%)}}
+@media(max-width:1120px) and (min-width:861px){
+  .hero-name{font-size:clamp(68px,8vw,108px);}
+  .hero-main{grid-template-columns:minmax(0,1.15fr) minmax(250px,.85fr);gap:clamp(24px,5vw,56px);}
+}
 @media(max-width:860px){
   .hero{padding-top:94px;}
   .hero-main{grid-template-columns:1fr;gap:18px;}
@@ -377,7 +382,7 @@ body::before{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
 <!-- ===== HERO ===== -->
 <header class="hero" id="top">
   <div class="hero-shell">
-    <div class="hero-kicker"><span class="status-dot" aria-hidden="true"></span><span>Software engineering student · open to internships</span></div>
+    <div class="hero-kicker"><span class="status-dot" aria-hidden="true"></span><span>Computer Science student · open to internships</span></div>
 
     <div class="hero-main">
       <div class="hero-copy">
@@ -403,32 +408,32 @@ body::before{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
 
     <div class="hero-stack" aria-label="Core technologies used across my software projects">
       <div class="hero-stack-track">
-        <div class="stack-item"><img src="assets/icons/typescript.svg" alt=""><span>TypeScript</span></div>
-        <div class="stack-item"><img src="assets/icons/nodejs.svg" alt=""><span>Node.js</span></div>
-        <div class="stack-item"><img src="assets/icons/python.svg" alt=""><span>Python</span></div>
-        <div class="stack-item"><img src="assets/icons/android.svg" alt=""><span>Kotlin / Android</span></div>
-        <div class="stack-item"><img src="assets/icons/flutter.svg" alt=""><span>Flutter</span></div>
-        <div class="stack-item"><img src="assets/icons/dart.svg" alt=""><span>Dart</span></div>
-        <div class="stack-item"><img src="assets/icons/database.svg" alt=""><span>PostgreSQL</span></div>
-        <div class="stack-item"><img src="assets/icons/firebase.svg" alt=""><span>Firebase</span></div>
-        <div class="stack-item"><img src="assets/icons/javascript.svg" alt=""><span>JavaScript</span></div>
-        <div class="stack-item"><img src="assets/icons/html5.svg" alt=""><span>HTML5</span></div>
-        <div class="stack-item"><img src="assets/icons/css3.svg" alt=""><span>CSS3</span></div>
-        <div class="stack-item"><img src="assets/icons/git.svg" alt=""><span>Git</span></div>
-        <div class="stack-item"><img src="assets/icons/github.svg" alt=""><span>GitHub</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/typescript.svg" alt=""><span>TypeScript</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/nodejs.svg" alt=""><span>Node.js</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/python.svg" alt=""><span>Python</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/android.svg" alt=""><span>Kotlin / Android</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/flutter.svg" alt=""><span>Flutter</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/dart.svg" alt=""><span>Dart</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/database.svg" alt=""><span>PostgreSQL</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/firebase.svg" alt=""><span>Firebase</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/javascript.svg" alt=""><span>JavaScript</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/html5.svg" alt=""><span>HTML5</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/css3.svg" alt=""><span>CSS3</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/git.svg" alt=""><span>Git</span></div>
-        <div class="stack-item" aria-hidden="true"><img src="assets/icons/github.svg" alt=""><span>GitHub</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="3" fill="currentColor"/><text x="12" y="16.3" text-anchor="middle" font-family="Arial,sans-serif" font-size="8.2" font-weight="700" fill="#6e1d24">TS</text></svg><span>TypeScript</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8 21 7v10l-9 5.2L3 17V7z" fill="none" stroke="currentColor" stroke-width="1.7"/><text x="12" y="15.1" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.1" font-weight="700" fill="currentColor">JS</text></svg><span>Node.js</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 3.2h6.1c2 0 3 1.2 3 3v3.1H9.8c-2.2 0-3.8 1.3-3.8 3.4v1.1H4.4C2.8 13.8 2 12.5 2 11V7.7c0-2.1 1.4-3.4 3.4-3.4h1.8z" fill="currentColor"/><circle cx="8.3" cy="6.1" r="1" fill="#6e1d24"/><path d="M16.8 20.8h-6.1c-2 0-3-1.2-3-3v-3.1h6.5c2.2 0 3.8-1.3 3.8-3.4v-1.1h1.6c1.6 0 2.4 1.3 2.4 2.8v3.3c0 2.1-1.4 3.4-3.4 3.4h-1.8z" fill="currentColor"/><circle cx="15.7" cy="17.9" r="1" fill="#6e1d24"/></svg><span>Python</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 8.3h11.6a2 2 0 0 1 2 2v7.8a2 2 0 0 1-2 2H6.2a2 2 0 0 1-2-2v-7.8a2 2 0 0 1 2-2z" fill="currentColor"/><path d="M7.3 8.1 5.8 5.6M16.7 8.1l1.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8.5" cy="11.6" r="1" fill="#6e1d24"/><circle cx="15.5" cy="11.6" r="1" fill="#6e1d24"/><path d="M7 20.1v2M17 20.1v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Kotlin / Android</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 2-10 10 3 3L20.5 2zM11 15l3-3 6.5 6.5-3 3zM8 18l3-3 3 3-3 3z" fill="currentColor"/></svg><span>Flutter</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 3h8.2L21 9.6v8.2L17.8 21H9.6L3 14.4V6.2z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 7h6.6l3.4 3.4v6.6h-6.6L7 13.6z" fill="currentColor" opacity=".9"/></svg><span>Dart</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.2" rx="7.5" ry="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 5.2v6.1c0 1.8 3.4 3.2 7.5 3.2s7.5-1.4 7.5-3.2V5.2M4.5 11.3v6.1c0 1.8 3.4 3.2 7.5 3.2s7.5-1.4 7.5-3.2v-6.1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>PostgreSQL</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 20 2.1-16 4 3.7L13 2l6 18-7 2z" fill="currentColor"/><path d="m7.1 4 4 3.7L5 20z" fill="#6e1d24" opacity=".5"/></svg><span>Firebase</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="3" fill="currentColor"/><text x="12" y="16.3" text-anchor="middle" font-family="Arial,sans-serif" font-size="8.2" font-weight="700" fill="#6e1d24">JS</text></svg><span>JavaScript</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16l-1.5 17L12 22 5.5 19z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.3 6h9.8l-.3 3H10l.2 2.2h6.4l-.5 5.1-4.1 1.2-4.1-1.2-.3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>HTML5</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16l-1.5 17L12 22 5.5 19z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 6h10l-.2 3.1-6.6 2.2h6.4l-.5 5-4.1 1.2-4.1-1.2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>CSS3</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 10 10-10 10L2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="8" r="1.6" fill="currentColor"/><circle cx="15" cy="15.5" r="1.6" fill="currentColor"/><circle cx="15" cy="10.5" r="1.6" fill="currentColor"/><path d="M10.5 8.8 14 10.2v3.7M9 9.6v4.8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Git</span></div>
+        <div class="stack-item"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4a9.6 9.6 0 0 0-3 18.7c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 0 1.6 1 1.6 1 .9 1.6 2.4 1.1 2.9.9.1-.7.4-1.1.7-1.4-2.2-.3-4.6-1.1-4.6-4.8 0-1.1.4-1.9 1-2.6-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.2 9.2 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.5 1 2.6 0 3.7-2.4 4.5-4.6 4.8.4.3.7.9.7 1.8v2.8c0 .3.2.6.7.5A9.6 9.6 0 0 0 12 2.4z" fill="currentColor"/></svg><span>GitHub</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="3" fill="currentColor"/><text x="12" y="16.3" text-anchor="middle" font-family="Arial,sans-serif" font-size="8.2" font-weight="700" fill="#6e1d24">TS</text></svg><span>TypeScript</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8 21 7v10l-9 5.2L3 17V7z" fill="none" stroke="currentColor" stroke-width="1.7"/><text x="12" y="15.1" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.1" font-weight="700" fill="currentColor">JS</text></svg><span>Node.js</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 3.2h6.1c2 0 3 1.2 3 3v3.1H9.8c-2.2 0-3.8 1.3-3.8 3.4v1.1H4.4C2.8 13.8 2 12.5 2 11V7.7c0-2.1 1.4-3.4 3.4-3.4h1.8z" fill="currentColor"/><circle cx="8.3" cy="6.1" r="1" fill="#6e1d24"/><path d="M16.8 20.8h-6.1c-2 0-3-1.2-3-3v-3.1h6.5c2.2 0 3.8-1.3 3.8-3.4v-1.1h1.6c1.6 0 2.4 1.3 2.4 2.8v3.3c0 2.1-1.4 3.4-3.4 3.4h-1.8z" fill="currentColor"/><circle cx="15.7" cy="17.9" r="1" fill="#6e1d24"/></svg><span>Python</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 8.3h11.6a2 2 0 0 1 2 2v7.8a2 2 0 0 1-2 2H6.2a2 2 0 0 1-2-2v-7.8a2 2 0 0 1 2-2z" fill="currentColor"/><path d="M7.3 8.1 5.8 5.6M16.7 8.1l1.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8.5" cy="11.6" r="1" fill="#6e1d24"/><circle cx="15.5" cy="11.6" r="1" fill="#6e1d24"/><path d="M7 20.1v2M17 20.1v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Kotlin / Android</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 2-10 10 3 3L20.5 2zM11 15l3-3 6.5 6.5-3 3zM8 18l3-3 3 3-3 3z" fill="currentColor"/></svg><span>Flutter</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 3h8.2L21 9.6v8.2L17.8 21H9.6L3 14.4V6.2z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 7h6.6l3.4 3.4v6.6h-6.6L7 13.6z" fill="currentColor" opacity=".9"/></svg><span>Dart</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.2" rx="7.5" ry="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 5.2v6.1c0 1.8 3.4 3.2 7.5 3.2s7.5-1.4 7.5-3.2V5.2M4.5 11.3v6.1c0 1.8 3.4 3.2 7.5 3.2s7.5-1.4 7.5-3.2v-6.1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>PostgreSQL</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 20 2.1-16 4 3.7L13 2l6 18-7 2z" fill="currentColor"/><path d="m7.1 4 4 3.7L5 20z" fill="#6e1d24" opacity=".5"/></svg><span>Firebase</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="3" fill="currentColor"/><text x="12" y="16.3" text-anchor="middle" font-family="Arial,sans-serif" font-size="8.2" font-weight="700" fill="#6e1d24">JS</text></svg><span>JavaScript</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16l-1.5 17L12 22 5.5 19z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.3 6h9.8l-.3 3H10l.2 2.2h6.4l-.5 5.1-4.1 1.2-4.1-1.2-.3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>HTML5</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16l-1.5 17L12 22 5.5 19z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 6h10l-.2 3.1-6.6 2.2h6.4l-.5 5-4.1 1.2-4.1-1.2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>CSS3</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 10 10-10 10L2 12z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="8" r="1.6" fill="currentColor"/><circle cx="15" cy="15.5" r="1.6" fill="currentColor"/><circle cx="15" cy="10.5" r="1.6" fill="currentColor"/><path d="M10.5 8.8 14 10.2v3.7M9 9.6v4.8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Git</span></div>
+        <div class="stack-item" aria-hidden="true"><svg class="stack-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4a9.6 9.6 0 0 0-3 18.7c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 0 1.6 1 1.6 1 .9 1.6 2.4 1.1 2.9.9.1-.7.4-1.1.7-1.4-2.2-.3-4.6-1.1-4.6-4.8 0-1.1.4-1.9 1-2.6-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.2 9.2 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.5 1 2.6 0 3.7-2.4 4.5-4.6 4.8.4.3.7.9.7 1.8v2.8c0 .3.2.6.7.5A9.6 9.6 0 0 0 12 2.4z" fill="currentColor"/></svg><span>GitHub</span></div>
       </div>
     </div>
   </div>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Study Focus Guard</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #111827;
+    color: #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+  }
+  h1 { font-size: 20px; margin-bottom: 16px; }
+  p.sub { color: #9ca3af; font-size: 13px; margin-top: 0 0 16px; text-align: center; max-width: 480px; }
+  #status {
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    background: #374151;
+  }
+  #status.armed { background: #065f46; color: #d1fae5; }
+  #status.loading { background: #78350f; color: #fef3c7; }
+  #status.detected { background: #7f1d1d; color: #fee2e2; }
+  video#webcam {
+    width: 480px;
+    max-width: 90vw;
+    border-radius: 12px;
+    transform: scaleX(-1); /* mirror, feels natural */
+    background: #000;
+  }
+  #controls { margin-top: 16px; display: flex; gap: 10px; }
+  button {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  #startBtn { background: #2563eb; color: white; }
+  #pauseBtn { background: #374151; color: #f3f4f6; }
+  #sensitivity { margin-top: 18px; font-size: 13px; color: #9ca3af; }
+  #sensitivity input { vertical-align: middle; margin: 0 8px; }
+
+  /* Full screen interrupt overlay */
+  #interrupt-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  #interrupt-overlay.show { display: flex; }
+  #interrupt-overlay video#nagVideo {
+    max-width: 90vw;
+    max-height: 75vh;
+    border-radius: 10px;
+    box-shadow: 0 0 60px rgba(255,255,255,0.15);
+  }
+  #interrupt-overlay .caption {
+    color: #fff;
+    margin-top: 18px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+  }
+  #interrupt-overlay button {
+    margin-top: 18px;
+    background: #ffffff22;
+    color: #fff;
+    border: 1px solid #ffffff55;
+  }
+  #interrupt-overlay button:hover { background: #ffffff33; }
+</style>
+</head>
+<body>
+
+<h1>📚 Study Focus Guard</h1>
+<div id="status" class="loading">Loading detection model…</div>
+<video id="webcam" autoplay muted playsinline></video>
+
+<div id="controls">
+  <button id="startBtn">Start Guarding</button>
+  <button id="pauseBtn" disabled>Pause</button>
+</div>
+
+<div id="sensitivity">
+  Trigger after
+  <input type="range" id="frameThreshold" min="5" max="60" value="20" />
+  <span id="frameThresholdLabel">20</span> consecutive detection frames
+  (~<span id="secLabel">2</span>s at typical webcam speed)
+</div>
+
+<!-- Full screen interrupt -->
+<div id="interrupt-overlay">
+  <video id="nagVideo" src="nag-video.mp4" playsinline></video>
+  <div class="caption">Phone spotted. Put it down and get back to it. 📵</div>
+  <button id="dismissBtn">Ok, I'm putting it down</button>
+</div>
+
+<!-- TensorFlow.js + COCO-SSD, loaded from CDN, runs entirely client-side -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+
+<script>
+const statusEl = document.getElementById('status');
+const webcamEl = document.getElementById('webcam');
+const startBtn = document.getElementById('startBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const overlay = document.getElementById('interrupt-overlay');
+const nagVideo = document.getElementById('nagVideo');
+const dismissBtn = document.getElementById('dismissBtn');
+const frameThresholdInput = document.getElementById('frameThreshold');
+const frameThresholdLabel = document.getElementById('frameThresholdLabel');
+const secLabel = document.getElementById('secLabel');
+
+let model = null;
+let running = false;
+let consecutiveHits = 0;
+let cooldownUntil = 0; // timestamp; don't re-trigger immediately after dismiss
+const CONFIDENCE_MIN = 0.55;
+const COOLDOWN_MS = 15000; // 15s pause after each interrupt before re-arming
+
+frameThresholdInput.addEventListener('input', () => {
+  frameThresholdLabel.textContent = frameThresholdInput.value;
+  secLabel.textContent = Math.round(frameThresholdInput.value / 10);
+});
+
+async function setup() {
+  statusEl.textContent = 'Loading detection model…';
+  statusEl.className = 'loading';
+  model = await cocoSsd.load(); // downloads model once, then cached by browser
+  statusEl.textContent = 'Model ready. Click "Start Guarding".';
+  statusEl.className = '';
+  startBtn.disabled = false;
+}
+
+async function startWebcam() {
+  const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+  webcamEl.srcObject = stream;
+  return new Promise((resolve) => {
+    webcamEl.onloadedmetadata = () => resolve();
+  });
+}
+
+function triggerInterrupt() {
+  running = false; // pause detection while overlay is up
+  overlay.classList.add('show');
+  nagVideo.currentTime = 0;
+  nagVideo.play();
+  statusEl.textContent = 'Interrupt active';
+  statusEl.className = 'detected';
+}
+
+function dismissInterrupt() {
+  overlay.classList.remove('show');
+  nagVideo.pause();
+  consecutiveHits = 0;
+  cooldownUntil = Date.now() + COOLDOWN_MS;
+  running = true;
+  statusEl.textContent = 'Guarding…';
+  statusEl.className = 'armed';
+  requestAnimationFrame(detectLoop);
+}
+
+nagVideo.addEventListener('ended', dismissInterrupt);
+dismissBtn.addEventListener('click', dismissInterrupt);
+
+async function detectLoop() {
+  if (!running) return;
+  if (Date.now() < cooldownUntil) {
+    requestAnimationFrame(detectLoop);
+    return;
+  }
+
+  const predictions = await model.detect(webcamEl);
+  const phoneSeen = predictions.some(
+    (p) => p.class === 'cell phone' && p.score >= CONFIDENCE_MIN
+  );
+
+  if (phoneSeen) {
+    consecutiveHits++;
+  } else {
+    consecutiveHits = Math.max(0, consecutiveHits - 1); // decay, not instant reset
+  }
+
+  const threshold = parseInt(frameThresholdInput.value, 10);
+  if (consecutiveHits >= threshold) {
+    triggerInterrupt();
+    return; // stop loop until dismissed
+  }
+
+  requestAnimationFrame(detectLoop);
+}
+
+startBtn.addEventListener('click', async () => {
+  startBtn.disabled = true;
+  statusEl.textContent = 'Requesting webcam access…';
+  await startWebcam();
+  running = true;
+  statusEl.textContent = 'Guarding…';
+  statusEl.className = 'armed';
+  pauseBtn.disabled = false;
+  detectLoop();
+});
+
+pauseBtn.addEventListener('click', () => {
+  running = !running;
+  pauseBtn.textContent = running ? 'Pause' : 'Resume';
+  if (running) {
+    statusEl.textContent = 'Guarding…';
+    statusEl.className = 'armed';
+    detectLoop();
+  } else {
+    statusEl.textContent = 'Paused';
+    statusEl.className = '';
+  }
+});
+
+startBtn.disabled = true;
+setup();
+</script>
+
+</body>
+</html>

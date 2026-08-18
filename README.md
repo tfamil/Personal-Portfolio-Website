@@ -1,63 +1,111 @@
-# Hi, I am Thamilini Gobalakrishnan
+# Personal Portfolio Website
 
-BSc (Hons) Computer Science student focused on software engineering across backend APIs, Flutter/Kotlin mobile apps, Python integrations and the web. My engineering experience is primarily project-based, with an additional collaborative contribution to the SeatSnaps Organizer Flutter application.
+A responsive single-page software engineering portfolio built with HTML, CSS, and vanilla JavaScript. The site showcases projects, experience, technical skills, education, and contact links through a custom interactive design.
 
-## What I work with
+## Live Site
 
-- **Languages:** TypeScript, JavaScript, Python, Kotlin, Dart, SQL, HTML, CSS
-- **Backend:** Node.js, Express, REST APIs, Prisma ORM, PostgreSQL, Zod
-- **Mobile:** Flutter/Dart, Android SDK/Kotlin, Google Maps, device sensors, QR/camera flows
-- **Data and cloud:** Room/SQLite, Firebase Authentication, Cloud Firestore
-- **Testing:** Jest, JUnit, Flutter test, Espresso, mocking and testable architecture
-- **Tools:** Git, GitHub, VS Code, Android Studio
+**https://tfamil.com/?utm_source=github.com&utm_medium=readme&utm_campaign=git-readme&utm_id=tfamil&utm_term=git-readme&utm_content=readme**
 
-## Selected projects
+## Highlights
 
-### SeatSnaps Organizer App - Contributor
-Flutter mobile organizer application in a shared GitHub repository. I contributed to app flows covering API-backed login/session handling, roles/events, attendee search and manual check-in, QR scanning with camera permissions, ticket booking, success/result screens, and setup/README improvements for contribution review.
+- Fully custom single-page layout with no frontend framework.
+- Responsive CSS Grid/Flexbox layouts.
+- Interactive project archive with modal details.
+- Scroll progress indicator.
+- IntersectionObserver-powered reveal animations.
+- Config-driven project, experience, social, and contact content.
+- Keyboard-close support for modals.
+- Reduced-motion support through `prefers-reduced-motion`.
+- Responsive navigation and section scrolling.
+- Downloadable CV integration.
+- GitHub Pages deployment.
+- SEO/social metadata and favicon/app-icon support in the current deployed repository.
 
-Repository: `https://github.com/rispitlanka/seatsnaps_organizer_mobile_app`
+## Tech Stack
 
-### Todo / Shopping List / Water Tracker REST API
-A TypeScript + Node.js + Express API structured as **Route -> Service -> Repository**. It uses Prisma/PostgreSQL, Zod validation, centralized errors, filtering/pagination, transactions and Jest service tests with mocked repositories.
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- GitHub Pages
+- GitHub Actions
 
-### PulsePath / GymMonster Fitness Mobile Apps
-A Kotlin Android project family across earlier GymMonster/GymStyle iterations and a more complete PulsePath v2 build. The projects use ViewModel/LiveData, repository patterns, Room, Firebase Authentication/Firestore, sensors, workout/calorie logic and background reminders. PulsePath v2 also includes GPS/Fused Location tracking, Haversine distance calculations, Google Maps route rendering, permissions and tests.
+## Design Approach
 
-### Connect Four - Human vs AI
-A Flutter/Dart mobile game built around user-vs-AI moves. It implements a 7x6 board, move validation, four-direction win detection, draws, undo, multiple AI strategies, SharedPreferences statistics and unit-tested game logic.
+The portfolio uses a custom editorial/archive-inspired visual system rather than a component library. Most content can be updated through a JavaScript configuration object while the surrounding layout and interactions remain reusable.
 
-### MyWeather
-A Python project with a command-line location manager and Tkinter GUI consuming OpenWeather geocoding/weather APIs, JSON persistence, data transformation, timezone-aware display and weather icons.
+Key UI patterns include:
 
-### Personal Portfolio
-Responsive single-page HTML/CSS/JavaScript portfolio with project archive interactions, modals, experience receipts, scroll/reveal behaviour, reduced-motion support, downloadable CVs and a local monochrome technology-logo slider. It is packaged for GitHub Pages.
+- hero typography and animation
+- project "folder" archive
+- modal project previews
+- interactive experience presentation
+- responsive skill/technology displays
+- scroll-based navigation state
+- accessibility-oriented reduced-motion fallback
 
-## Education
+## Run Locally
 
-**BSc (Hons) Computer Science** - NSBM Green University / University of Plymouth (UK) pathway  
-2025 - Present | Expected 2028
+This is a static site, so no build process is required.
 
-**GCE Advanced Level - Physical Science** - J/Vembadi Girls High School  
-2021 - 2023
+You can open `index.html` directly, or serve the folder locally.
 
-## Additional experience
+With Python:
 
-My non-software roles include volunteer event coordination, digital marketing, junior tech operations and website content administration. They support communication, organization, remote collaboration and responsibility without being presented as professional software-engineering employment.
+```bash
+python -m http.server 8000
+```
 
-## Contact
+Then visit:
 
-- Email: **thamiligobalakrishnan@gmail.com**
-- GitHub: **https://github.com/tfamil**
-- LinkedIn: **https://linkedin.com/in/gthamil/**
-- Location: **Colombo, Sri Lanka**
+```text
+http://localhost:8000
+```
 
-## GitHub Pages deployment
+## Deployment
 
-1. Create a repository (for a profile site, `tfamil.github.io` is the conventional name).
-2. Upload the files in this folder to the repository root.
-3. In **Settings -> Pages**, choose **Deploy from a branch**.
-4. Select `main` and `/ (root)`, then save.
-5. Keep `.nojekyll` in the repository root.
+The site can be deployed directly to GitHub Pages with a static Pages workflow.
 
-The technology icons under `assets/icons/` are local files and are rendered as white monochrome marks to match the maroon/cream portfolio theme.
+Recommended repository structure:
+
+```text
+.
+├── .github/
+│   └── workflows/
+│       └── static.yml
+├── assets/
+├── index.html
+├── favicon.ico
+├── favicon-16x16.png
+├── favicon-32x32.png
+├── apple-touch-icon.png
+├── android-chrome-192x192.png
+├── android-chrome-512x512.png
+├── site.webmanifest
+├── robots.txt
+├── sitemap.xml
+└── CNAME
+```
+
+## What I Practised
+
+- Semantic HTML
+- Responsive interface design
+- Advanced CSS layout/animation
+- DOM manipulation
+- Accessible interaction patterns
+- Configuration-driven frontend content
+- Static-site deployment
+- GitHub Actions / GitHub Pages
+- SEO and social-sharing metadata
+
+## Before Publishing
+
+The attached portfolio archive is an older single-file version and contains older experience/project copy. The current GitHub Pages repository should be treated as the source of truth.
+
+For a polished public repository:
+
+- Keep the current `index.html`, favicon files, manifest, sitemap, robots file, and assets.
+- Keep project descriptions consistent with the actual technologies in each repository.
+- Use the real portfolio URL (`https://tfamil.com/?utm_source=github.com&utm_medium=readme&utm_campaign=git-readme&utm_id=tfamil&utm_term=git-readme&utm_content=readme`) everywhere instead of older placeholder domains.
+- Make sure CV links point to an existing file/URL.
+- Avoid embedding large base64 images when normal optimized image files can be used.
